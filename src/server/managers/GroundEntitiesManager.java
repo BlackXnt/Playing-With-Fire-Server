@@ -5,20 +5,26 @@ import java.util.Iterator;
 import java.util.List;
 
 import server.entities.Entity;
+import server.network.NetworkMessenger;
 
 public class GroundEntitiesManager {
-	private static List<Entity> groundEntities = new ArrayList<>(); 
+	private List<Entity> groundEntities = new ArrayList<>(); 
 	
-	public static boolean addGroundItem(Entity entity){
+	public GroundEntitiesManager(){
+		groundEntities = new ArrayList<>();
+	}
+	
+	public boolean addGroundItem(Entity entity){
 		return groundEntities.add(entity);
 	}
 	
-	public static void updateGroundItems() {
+	public void update() {
 		Iterator<Entity> iter = groundEntities.iterator();
 		while (iter.hasNext()) {
 			Entity entity = iter.next();
 			if (entity.isValid()) {
 				entity.tick();
+				//NetworkMessenger.drawGroundEntity(entity);
 			} else {
 				iter.remove();
 			}

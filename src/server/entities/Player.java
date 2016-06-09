@@ -10,6 +10,7 @@ import server.managers.ClientsManager;
 import server.managers.GroundEntitiesManager;
 import server.managers.MapsManager;
 import server.network.Client;
+import server.network.NetworkMessenger;
 import server.util.Direction;
 
 public class Player extends MovingEntity{
@@ -61,7 +62,7 @@ public class Player extends MovingEntity{
 		}
 
 		// Collision checking
-		GameMap map = MapsManager.getCurrentMap();
+		GameMap map = GameServer.getMapsManager().getCurrentMap();
 		if (map.getInteractingTilesTypes(new Rectangle(newX, newY, width, height))
 				.contains(TileType.Brick)
 				|| map.getInteractingTilesTypes(new Rectangle(newX, newY, width, height))
@@ -75,11 +76,14 @@ public class Player extends MovingEntity{
 	}
 	
 	public void placeBomb(){
-		GameMap map = MapsManager.getCurrentMap();
 		if(bombsPlaced < maxNumberOfBombs){
-			GroundEntitiesManager.addGroundItem((new Bomb(location.getX(), location.getY(), GameServer.getClientsManager().getClientByPlayer(this).getId())));
+			Bomb bomb = new Bomb(location.getX(), location.getY(), GameServer.getClientsManager().getClientByPlayer(this).getId());
+			GameServer.getGroundEntitiesManager().addGroundItem(bomb);
 			bombsPlaced++;
+			System.out.println(20000);
+			NetworkMessenger.drawGroundEntity(bomb);
 		}
+		
 	}
 	
 	public void removeDetonatedBomb(){

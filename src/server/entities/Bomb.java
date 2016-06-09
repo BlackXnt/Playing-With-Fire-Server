@@ -33,7 +33,7 @@ public class Bomb extends Entity {
 			if(exploded == false){
 				GameServer.getClientsManager().getClientById(placerId).getPlayer().placeBomb();
 			}
-			GameMap map = MapsManager.getCurrentMap();
+			GameMap map = GameServer.getMapsManager().getCurrentMap();
 			int bombCenterX = (int) (location.getX() + width / 2);
 			int bombCenterY = (int) (location.getY() + height / 2);
 			map.setTileType(bombCenterX, bombCenterY, TileType.Explosion_Center);
@@ -87,7 +87,7 @@ public class Bomb extends Entity {
 			}
 		} else if(currentCycle >= CYCLES_TO_INVALIDATION){
 			if (valid) {
-				GameMap map = MapsManager.getCurrentMap();
+				GameMap map = GameServer.getMapsManager().getCurrentMap();
 				int bombCenterX = (int) (location.getX() + width / 2);
 				int bombCenterY = (int) (location.getY() + height / 2);
 				for (Direction dir : Direction.values()) {
@@ -106,7 +106,7 @@ public class Bomb extends Entity {
 	}
 	
 	public String toString(){
-		return "entity|bomb|" + location.getX() + "|" + location.getY() + "|" + placerId;
+		return "bomb|" + location.getX() + "|" + location.getY();
 	}
 	
 }

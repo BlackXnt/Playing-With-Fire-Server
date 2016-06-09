@@ -107,7 +107,6 @@ public class GameMap implements Serializable{
 	
 	public Set<TileType> getInteractingTilesTypes(Rectangle box){
 		Set<TileType> interactingTiles = new HashSet<>();
-		System.out.println(box);
 		for (int i = 0; i < tiles.length; i++) {
 			for (int j = 0; j < tiles[i].length; j++) {
 				if (tiles[i][j].getBounds().intersects(box)) {

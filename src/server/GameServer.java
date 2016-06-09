@@ -3,9 +3,11 @@ package server;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 
 import server.entities.Player;
 import server.managers.ClientsManager;
+import server.managers.GroundEntitiesManager;
 import server.managers.MapsManager;
 import server.network.Client;
 import server.network.NetworkMessenger;
@@ -15,13 +17,15 @@ public class GameServer {
 	private static final int port = 23351;
 	private boolean running = true;
 	private static ClientsManager clientsManager;
+	private static GroundEntitiesManager groundEntitiesManager;
 	private static MapsManager mapsManager;
 	
 	public GameServer(){
 		ServerSocket serverSocket;
 		clientsManager = new ClientsManager();
+		groundEntitiesManager = new GroundEntitiesManager();
 		mapsManager = new MapsManager();
-		Thread mainThread = new Thread(new MainThread(clientsManager, mapsManager));
+		Thread mainThread = new Thread(new MainThread(clientsManager, mapsManager, groundEntitiesManager));
 		mainThread.start();
 		try{
 			serverSocket = new ServerSocket(port);
@@ -40,11 +44,20 @@ public class GameServer {
 		}
 	}
 	
+	public static ClientsManager getClientsManager(){
+		return clientsManager;
+	}
+	
+	public static GroundEntitiesManager getGroundEntitiesManager(){
+		return groundEntitiesManager;
+	}
+	
+	public static MapsManager getMapsManager(){
+		return mapsManager;
+	}
+	
 	public static void main(String[] args) {
 		GameServer gameServer = new GameServer();
 	}
 	
-	public static ClientsManager getClientsManager(){
-		return clientsManager;
-	}
 }

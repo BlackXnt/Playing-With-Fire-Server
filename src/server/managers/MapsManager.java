@@ -13,9 +13,9 @@ import map.Tile;
 import map.TileType;
 
 public class MapsManager {
-	private static List<GameMap> maps = new ArrayList<>();
-	private static int numberOfMaps;
-	private static int currentMapId;
+	private List<GameMap> maps = new ArrayList<>();
+	private int numberOfMaps;
+	private int currentMapId = 1;
 
 	public MapsManager() {
 		readMaps();
@@ -25,30 +25,35 @@ public class MapsManager {
 		return maps.get(i);
 	}
 
-	public static void addMap(GameMap map) {
+	public void addMap(GameMap map) {
 		if (maps.add(map)) {
 			numberOfMaps++;
 			map.setId(numberOfMaps);
 		}
 	}
 
-	public static int getCurrentMapId() {
+	public int getCurrentMapId() {
 		return currentMapId;
 	}
 
-	public static void setCurrentMapId(int mapId) {
+	public void setCurrentMapId(int mapId) {
 		currentMapId = mapId;
 	}
 
-	public static GameMap getCurrentMap() {
-		return maps.get(currentMapId);
+	public GameMap getCurrentMap() {
+		for(GameMap map : maps){
+			if(map.getId() == currentMapId){
+				return map;
+			}
+		}
+		return null;
 	}
 
 	private void readMaps() {
 		File[] files = new File("maps").listFiles();
 		for (File file : files) {
 			if (!file.isDirectory()) {
-				maps.add(praseMapFile(file));
+				addMap(praseMapFile(file));
 			}
 		}
 	}

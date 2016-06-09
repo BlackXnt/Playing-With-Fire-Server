@@ -20,7 +20,7 @@ public class ClientThread implements Runnable{
 	
 	@Override
 	public void run() {
-		Player player = new Player(400, 400, 27, 27, 3, null);
+		Player player = new Player(35, 35, 27, 27, 3, null);
 		client.setPlayer(player);
 		try {
 			BufferedReader in = new BufferedReader(new InputStreamReader(client.getSocket().getInputStream()));
